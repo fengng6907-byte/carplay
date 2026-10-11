@@ -9,7 +9,7 @@ import UIKit
 /// A standards-compliant CarPlay scene. Audio/Now Playing controls use templates;
 /// video is rendered only in a normal external-display UIWindow or on the phone.
 @MainActor
-final class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelegate, CPSessionConfigurationDelegate {
+final class CarPlaySceneDelegate: UIResponder, @preconcurrency CPTemplateApplicationSceneDelegate, CPSessionConfigurationDelegate {
     private var interfaceController: CPInterfaceController?
     private var sessionConfiguration: CPSessionConfiguration?
     private var observations = Set<AnyCancellable>()

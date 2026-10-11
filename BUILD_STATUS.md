@@ -1,59 +1,63 @@
-# Build status and phase gate
+# Build status and remaining blockers
 
-Updated: 2026-10-11
+Updated: 2026-10-12
 
-## Status
+## Verified status
 
 | Area | Status | Evidence |
 |---|---|---|
-| Phase 1 audit | Complete | `AUDIT.md` |
-| Xcode project and app/test targets | Generated, not Xcode-verified | `OmniCast.xcodeproj` |
-| SwiftUI entry and scene manifest | Implemented, not runtime-verified | `OmniCastApp.swift`, `Info.plist` |
-| Unified playback reducer | Implemented and statically reviewed | `PlaybackStateModel.swift` |
-| AVPlayer/WebKit coordination | Implemented, not device-tested | `PlayerManager.swift`, `CarWebViewController.swift` |
-| MIME-aware routing | Implemented with unit tests, tests not executed | `MediaSourceResolver.swift`, `OmniCastTests` |
-| macOS CI | Configured, not executed in this directory | `.github/workflows/ios.yml` |
-| Phases 4–7 | Blocked by build gate | A successful Apple-SDK build/test run is required first. |
+| Phase 1 repository audit | Complete | `AUDIT.md` |
+| Phase 2 app/project foundation | Complete | App and test targets, shared scheme, CI |
+| Phase 3 player engine | Complete for supported public APIs | Reducer, AVPlayer/WebKit coordination, remote controls |
+| Phase 4 iPhone experience | Complete | Four tabs, mini player, persisted library, receiver/destination status |
+| Phase 5 network hardening | Complete for the embedded receiver | Explicit LAN/DLNA opt-in, Keychain token, limits, URL/redirect policy, tests |
+| Phase 6 public CarPlay audio | Implemented; device approval/testing pending | Templates, library, Now Playing, controls |
+| Phase 6 iOS 27 video metadata | Source complete; SDK/approval blocked | Compiler/runtime guards and capability check |
+| Phase 7 simulator automation | Passing | GitHub Actions run 38153490886 |
+| Phase 7 signing/TestFlight/device validation | Pending owner hardware/account | `RELEASE_CHECKLIST.md` |
 
-## Checks actually performed
+## Build evidence
 
-- Audited all baseline source and documentation files.
-- Confirmed every custom type referenced by the baseline is defined.
-- Added explicit source/resource membership for the app and test targets.
-- Checked that every 24-character project-object reference has a matching definition.
-- Parsed `Info.plist`, `PrivacyInfo.xcprivacy`, and the shared scheme as XML.
-- Parsed all asset catalog `Contents.json` files as JSON.
-- Checked Swift source brace balance and stale publisher/call-site references.
+- Repository: `fengng6907-byte/carplay`
+- Verified source commit: `11c1c6d0ce6e06a99fabb11e2c79c771715e3720`
+- Workflow run: `38153490886`
+- Runner: GitHub-hosted macOS 15.7.9, arm64
+- Toolchain: Xcode 26.3 (17C529), iPhoneSimulator 26.2 SDK
+- Clean Debug generic simulator build: **succeeded**
+- Unit tests: **15 executed, 0 failures, 0 unexpected**
 
-These checks are not a substitute for Swift compilation.
+The first run (`38153360104`) also proved the app compiled, then correctly failed the
+test gate because the generated Debug target lacked `ENABLE_TESTABILITY`. Commit
+`11c1c6d` fixed that project setting; the next run passed. This record does not claim a
+signed device archive or an iOS 27 SDK build.
 
-## Required gate
+## Implemented safeguards and scope limits
 
-Before Phase 4 implementation, run the workflow or the README `xcodebuild` commands and
-record:
+- The LAN receiver defaults off; loopback does not require Wi-Fi.
+- Proprietary LAN APIs require a per-install bearer token held in Keychain.
+- HTTP headers/bodies and client request rates are bounded.
+- Unsafe schemes, embedded credentials, private public-mode targets, and unsafe
+  redirects are rejected.
+- DLNA SSDP/AVTransport is available only in explicit compatibility mode.
+- WebKit and AVPlayer are coordinated to avoid simultaneous playback.
+- The app does not claim Widevine/HDCP bypass, universal websites, raw-DASH support,
+  capture-based DRM relay, or indefinite background service execution.
+- CarPlay uses public templates only; no entitlement spoofing, private API, custom media
+  window, or driving-state bypass exists.
 
-1. Xcode and Swift versions.
-2. Simulator OS and destination.
-3. Full compiler diagnostics, if any.
-4. Unit-test count and failures.
-5. The commit SHA that was tested.
+## Remaining release blockers
 
-Do not mark the foundation green until both the app build and unit-test action succeed.
+1. Replace placeholder bundle identifiers and select the owner's Apple Developer team.
+2. Obtain Apple's applicable CarPlay app-category approval and provisioning. Obtain
+   multicast networking approval only if LAN DLNA discovery will ship.
+3. Build the guarded video branch with an iOS 27 SDK and obtain Apple's video-app
+   approval before representing video playback as supported in CarPlay.
+4. Run a signed archive, Organizer validation, TestFlight review, and entitlement
+   inspection on the owner's Mac/account.
+5. Complete physical iPhone, AirPlay/external display, LAN-permission, CarPlay Simulator,
+   supported head-unit, interruption, and parked/moving transition tests.
+6. Address any concurrency warnings before enabling Swift 6 language mode; the current
+   target deliberately builds in Swift 5 language mode.
 
-## Known blockers and follow-up work
-
-- This environment is Windows and has no `xcodebuild`, iOS SDK, CarPlay Simulator, code
-  signing identities, provisioning profiles, or physical iPhone/head unit.
-- The bundle identifier `com.example.OmniCast` is a placeholder.
-- An App Store-quality app icon is not yet supplied.
-- CarPlay audio/video and multicast capabilities require approval and provisioning.
-- The Phase 4 tabbed phone experience, library persistence, and mini-player are not yet
-  implemented.
-- Phase 5 must decouple the receiver from CarPlay, default LAN exposure off, add
-  authenticated proprietary APIs, redirect/private-address policy, rate limits, and
-  malformed-request tests.
-- Phase 6 iOS 27 video metadata/capability code requires the iOS 27 SDK and approved video
-  entitlement.
-- Phase 7 archive, signing, TestFlight, CarPlay Simulator, physical network, and vehicle
-  tests remain pending.
-
+These blockers require Apple credentials, approvals, an SDK not present in the verified
+runner, or physical hardware and therefore cannot be truthfully completed in CI alone.

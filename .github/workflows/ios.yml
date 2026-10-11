@@ -34,6 +34,17 @@ jobs:
           CODE_SIGNING_ALLOWED=NO
           clean build
 
+      - name: Build release for a generic device
+        run: >-
+          xcodebuild
+          -project OmniCast.xcodeproj
+          -scheme OmniCast
+          -configuration Release
+          -sdk iphoneos
+          -destination 'generic/platform=iOS'
+          CODE_SIGNING_ALLOWED=NO
+          build
+
       - name: Select an available iPhone simulator
         id: simulator
         shell: bash

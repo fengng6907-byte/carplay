@@ -13,6 +13,7 @@ final class DLNAReceiverService: @unchecked Sendable {
     enum Status: Sendable, Equatable {
         case stopped
         case starting
+        case waiting(String)
         case running(port: UInt16)
         case failed(String)
     }
@@ -141,6 +142,10 @@ final class DLNAReceiverService: @unchecked Sendable {
                         self.running = false
                         self.updateStatus(.failed("The receiver could not bind a local port."))
                     }
+                case let .waiting(error):
+                    // Keep the listener alive: Network.framework can transition to
+                    // ready after the user grants Local Network access or a route returns.
+                    self.updateStatus(.waiting(error.localizedDescription))
                 default:
                     break
                 }

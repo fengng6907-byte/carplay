@@ -19,6 +19,7 @@ final class ReceiverController: ObservableObject {
         switch status {
         case .stopped: return "Stopped"
         case .starting: return "Starting"
+        case let .waiting(message): return "Waiting: \(message)"
         case let .running(port): return "Listening on port \(port)"
         case let .failed(message): return message
         }

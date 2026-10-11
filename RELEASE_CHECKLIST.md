@@ -30,7 +30,7 @@
 - [ ] Validate the archive and inspect its final entitlements with `codesign -d --entitlements :-`.
 - [ ] Run Analyze and address warnings, concurrency diagnostics, privacy warnings, and
       deprecated API reports.
-- [ ] Add a complete AppIcon asset before distribution.
+- [x] Add a complete 1024×1024 AppIcon asset.
 
 ## Manual iPhone playback plan
 
@@ -73,4 +73,3 @@
       diagnostics without logging URLs containing secrets.
 - [ ] Complete export-compliance, privacy nutrition labels, age rating, and content rights.
 - [ ] Do not use remote configuration to conceal browser, video, or receiver behavior.
-

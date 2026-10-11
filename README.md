@@ -1,18 +1,25 @@
 # OmniCast
 
-OmniCast is a native iOS 16+ media-player foundation built with SwiftUI, UIKit,
-AVFoundation, WebKit, Network, MediaPlayer, and public CarPlay templates.
+[![iOS build and tests](https://github.com/fengng6907-byte/carplay/actions/workflows/ios.yml/badge.svg)](https://github.com/fengng6907-byte/carplay/actions/workflows/ios.yml)
 
-> Build status: the project and tests have been generated and statically audited, but
-> have **not** been compiled on this Windows host. Do not treat the project as build-
-> verified until the included macOS workflow or a local Mac completes `xcodebuild`.
+OmniCast is a native iOS 16+ media player built with SwiftUI, UIKit,
+AVFoundation, WebKit, Network, MediaPlayer, and public CarPlay templates. It offers
+phone playback, an explicit opt-in local receiver, a persistent media library, public
+CarPlay audio browsing/Now Playing, and ordinary AirPlay/external-display playback.
 
-## Open the project
+The app does not bypass DRM, expose arbitrary WebKit content as a custom CarPlay window,
+spoof entitlements, conceal features behind remote configuration, or promise unsupported
+background execution.
 
-Open `OmniCast.xcodeproj` in the current stable Xcode. The app target is `OmniCast`, the
-unit-test target is `OmniCastTests`, and the shared scheme is `OmniCast`.
+## Verified build
 
-Command-line validation on macOS:
+GitHub Actions commit `11c1c6d` completed a clean Debug simulator build and all 15 unit
+tests with Xcode 26.3 / iPhoneSimulator 26.2. The current workflow also performs an
+unsigned Release build for generic iOS hardware before testing. See `BUILD_STATUS.md`
+for the exact verification record and outstanding device-only gates.
+
+Open `OmniCast.xcodeproj` in Xcode. The shared scheme is `OmniCast`; the targets are
+`OmniCast` and `OmniCastTests`.
 
 ```sh
 xcodebuild \
@@ -27,100 +34,111 @@ xcodebuild \
 xcodebuild \
   -project OmniCast.xcodeproj \
   -scheme OmniCast \
-  -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=latest' \
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=latest' \
   CODE_SIGNING_ALLOWED=NO \
   test
 ```
 
-The GitHub Actions workflow performs the same unsigned simulator build and chooses an
-available iPhone simulator for unit tests.
+## Architecture
 
-## Current architecture
-
-```
-SwiftUI phone scene ───────┐
-CarPlay CPTemplate scene ──┼── PlayerManager ── AVPlayer
+```text
+SwiftUI phone UI ──────────┐
+CarPlay template scene ────┼── PlayerManager ── AVPlayer
 External display scene ────┘         │
                                      └── WKWebView media bridge
                                               ▲
                                               │
-                                    DLNAReceiverService
+ReceiverController ── DLNAReceiverService ────┘
+        │
+        └── Keychain token + explicit LAN/DLNA consent
 ```
 
-- `OmniCastApp.swift` is the SwiftUI entry point.
-- `PhoneRootView.swift` is the Phase 2 phone shell with validated URL entry, playback
-  state, destination, controls, and retry UI.
-- `PlaybackStateModel.swift` contains a pure reducer for loading, buffering, playing,
-  paused, ended, reconnecting, and failure transitions.
-- `PlayerManager.swift` owns one `AVPlayer`, one unified snapshot, Now Playing metadata,
-  remote commands, interruptions, route changes, and WebKit coordination.
-- `MediaSourceResolver.swift` combines MIME and extension classification. It sends a
-  bounded HEAD request and safely falls back when a CDN rejects HEAD.
-- `CarWebViewController.swift` is a phone/external-display WebKit host. It is not
-  installed as arbitrary CarPlay content.
-- `DLNAReceiverService.swift` is the existing compact UPnP receiver. Its security and
-  lifecycle hardening remain a Phase 5 item and it must not be exposed on a LAN in a
-  release build yet.
-- `CarPlaySceneDelegate.swift` provides public list and Now Playing templates and an
-  ordinary noninteractive external-display window.
+- `OmniCastApp.swift` composes the process-wide player, library, and receiver models.
+- `PhoneRootView.swift` provides Home, Cast, Library, and Settings tabs, accessible
+  progress/error/retry states, and a persistent mini player.
+- `PlaybackStateModel.swift` is a pure reducer for idle, loading, buffering, playing,
+  paused, ended, reconnecting, and failed states.
+- `PlayerManager.swift` coordinates one AVPlayer and the active WebKit controller,
+  prevents duplicate playback, handles interruptions/routes, and maintains Now Playing
+  metadata and remote commands.
+- `MediaSourceResolver.swift` classifies MIME types and extensions, validates every URL
+  and redirect, and selects native or web playback.
+- `MediaLibraryStore.swift` persists recent and saved entries in UserDefaults.
+- `CarWebViewController.swift` enables inline/AirPlay media, uses a desktop Safari user
+  agent, enlarges controls, removes generic app/cookie banners, and bridges HTML5 state
+  and play/pause/seek commands. Site login and paywall UI is intentionally preserved.
+- `DLNAReceiverService.swift` implements a bounded HTTP/SOAP receiver and an explicit
+  compatibility-mode SSDP/AVTransport subset. `ReceiverController.swift` owns its
+  process lifecycle independently of CarPlay.
+- `CarPlaySceneDelegate.swift` uses public list and Now Playing templates. It also owns
+  the ordinary, noninteractive external-display scene; it never creates a custom media
+  window inside the CarPlay template scene.
 
-## Playback behavior
+## Playback and security behavior
 
 Native HLS, MP4/MOV/M4V, and common audio formats route to AVPlayer. HTML pages,
-MPEG-DASH manifests, and other browser-oriented sources route to WebKit. Actual DASH
-playback requires a WebKit-compatible page/player; a raw manifest alone is not a
-universal player. WebRTC requires a valid signaling/application page.
+MPEG-DASH manifests, and other browser-oriented sources route to WebKit. Raw DASH and
+WebRTC work only when a compatible web application supplies the needed JavaScript,
+media, and signaling. Arbitrary websites are not guaranteed.
 
-Switching engines pauses the previous engine to avoid duplicate audio. AVPlayer state is
-derived from item status and `timeControlStatus`; WebKit reports playing, buffering,
-ended, time, duration, and title through the script bridge. Audio interruptions and
-route changes update the shared state and Now Playing metadata.
+Public URLs require HTTPS, contain no embedded credentials, and may not resolve to
+loopback, link-local, carrier-grade NAT, RFC1918, IPv6 ULA, or multicast targets. The
+same policy is applied to redirects. A separate, explicit setting permits local HTTP
+sources. This validation reduces SSRF exposure but does not replace server-side URL
+controls for a future cloud relay.
+
+The loopback receiver starts independently of the UI. LAN exposure is off by default.
+When enabled, `/cast` and `/health` require a per-install 256-bit bearer token stored in
+the Keychain. Requests have independent header/body caps and a per-client rate limit.
+Unauthenticated standards-compatible UPnP endpoints exist only when the user separately
+enables DLNA compatibility mode. Denied local-network access remains visible as a waiting
+state and the listener can recover or be recreated from Settings.
 
 FairPlay content must use the content owner's supported key-delivery integration.
-Widevine, capture-based DRM relays, arbitrary website playback, and universal background
-execution are not claimed or implemented.
+Widevine, HDCP circumvention, capture-based DRM relays, and universal website playback
+are not implemented.
 
-## Scene configuration
+## CarPlay and iOS 27
 
-`Info.plist` declares:
+The iOS 16+ path is a legitimate audio CarPlay app: library browsing, Now Playing, and
+remote playback controls use `CPTemplateApplicationScene`. Apple's public custom
+`CPWindow` path is navigation/map-specific and is not used here.
 
-- the `CPTemplateApplicationSceneSessionRoleApplication` CarPlay scene;
-- the `UIWindowSceneSessionRoleExternalDisplayNonInteractive` external-display scene;
-- local-network, location, and motion usage descriptions; and
-- the audio background mode.
+iOS 27 playback metadata is source-gated by both compiler and runtime availability. With
+an iOS 27 SDK and Apple's video-app approval, OmniCast checks
+`CPSessionConfiguration.supportsVideoPlayback` and assigns a
+`CPPlaybackConfiguration`; otherwise it advertises audio presentation. The system and
+vehicle remain authoritative for video availability and parked/moving transitions.
+AirPlay and ordinary external displays use AVPlayer/WebKit public pathways.
 
-The CarPlay scene uses templates only. Apple restricts custom `CPWindow` content to
-navigation map rendering. On iOS 27, approved video apps must use Apple's video
-entitlement, AirPlay support, `CPSessionConfiguration.supportsVideoPlayback`, and
-`CPPlaybackConfiguration`; CarPlay remains responsible for parked-state availability.
-Those SDK-only additions are intentionally gated until the project is built with an
-iOS 27 SDK and the entitlement is approved.
+The iOS 27 branch was not compiled by the recorded Xcode 26.3 run. It remains an SDK and
+Apple-approval gate, not a claimed verified feature.
 
-## Tests
+## Automated tests
 
-`OmniCastTests` currently covers:
+`OmniCastTests` contains 15 tests covering:
 
-- native playback state transitions;
-- buffering, completion, failure, retry, and stop behavior;
-- destination preservation;
-- invalid idle transitions and non-finite time sanitization;
-- MIME precedence and extension fallback; and
-- rejection of unsafe URL schemes and missing hosts.
+- reducer transitions, retry, completion, destination preservation, and invalid values;
+- MIME precedence, extension fallback, and base URL rejection;
+- public/private URL policy, local HTTP opt-in, parser/body limits, bearer
+  authentication, and rate limiting; and
+- media-library deduplication, persistence, saved entries, and recent-entry cleanup.
 
-Network parser, authentication, rate-limit, redirect, and private-target tests belong to
-Phase 5 and are listed as blocked in `BUILD_STATUS.md` until the Phase 2/3 build gate is
-green.
+## Release preparation
 
-## Repository documents
+- `AUDIT.md` records the original Phase 1 audit.
+- `BUILD_STATUS.md` separates completed work from device/approval blockers.
+- `RELEASE_CHECKLIST.md` covers identifiers, signing, Apple approvals, TestFlight,
+  CarPlay, network, external-display, accessibility, and physical-device testing.
 
-- `AUDIT.md` — Phase 1 implementation and gap audit.
-- `BUILD_STATUS.md` — completed checks, unverified claims, and phase gate.
-- `RELEASE_CHECKLIST.md` — entitlements, signing, TestFlight, CarPlay, and physical-
-  device testing.
+Before distribution, replace `com.example.OmniCast`, select the owning development team,
+request the appropriate CarPlay and multicast capabilities from Apple, generate profiles
+through the developer portal, and complete the manual checklist. Never commit signing
+certificates, private keys, profiles, API keys, or receiver tokens.
 
 ## Distribution policy
 
 Use transparent Store and Internal configurations. Internal builds may add diagnostics
-or test endpoints, but must not contain concealed remotely activated features. Sideloading
-does not grant CarPlay or multicast entitlements and does not make private APIs acceptable.
-
+or developer endpoints, but must not conceal remotely activated browser/video behavior.
+Sideloading does not grant CarPlay or multicast entitlements and does not make private
+APIs or driving-state bypasses acceptable.
