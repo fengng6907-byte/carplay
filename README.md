@@ -13,10 +13,10 @@ background execution.
 
 ## Verified build
 
-GitHub Actions commit `11c1c6d` completed a clean Debug simulator build and all 15 unit
-tests with Xcode 26.3 / iPhoneSimulator 26.2. The current workflow also performs an
-unsigned Release build for generic iOS hardware before testing. See `BUILD_STATUS.md`
-for the exact verification record and outstanding device-only gates.
+GitHub Actions commit `3f65e3a` completed clean Debug simulator and unsigned Release
+generic-device builds plus all 15 unit tests with Xcode 26.3 / iPhoneSimulator 26.2.
+See `BUILD_STATUS.md` for the exact verification record and outstanding device-only
+gates.
 
 Open `OmniCast.xcodeproj` in Xcode. The shared scheme is `OmniCast`; the targets are
 `OmniCast` and `OmniCastTests`.

@@ -13,17 +13,18 @@ Updated: 2026-10-12
 | Phase 5 network hardening | Complete for the embedded receiver | Explicit LAN/DLNA opt-in, Keychain token, limits, URL/redirect policy, tests |
 | Phase 6 public CarPlay audio | Implemented; device approval/testing pending | Templates, library, Now Playing, controls |
 | Phase 6 iOS 27 video metadata | Source complete; SDK/approval blocked | Compiler/runtime guards and capability check |
-| Phase 7 simulator automation | Passing | GitHub Actions run 38153490886 |
+| Phase 7 build/test automation | Passing | GitHub Actions run 38154005936 |
 | Phase 7 signing/TestFlight/device validation | Pending owner hardware/account | `RELEASE_CHECKLIST.md` |
 
 ## Build evidence
 
 - Repository: `fengng6907-byte/carplay`
-- Verified source commit: `11c1c6d0ce6e06a99fabb11e2c79c771715e3720`
-- Workflow run: `38153490886`
+- Verified source commit: `3f65e3af209a78052d9f4d17686610236fc0e8a8`
+- Workflow run: `38154005936`
 - Runner: GitHub-hosted macOS 15.7.9, arm64
 - Toolchain: Xcode 26.3 (17C529), iPhoneSimulator 26.2 SDK
 - Clean Debug generic simulator build: **succeeded**
+- Unsigned Release generic iOS device build: **succeeded**
 - Unit tests: **15 executed, 0 failures, 0 unexpected**
 
 The first run (`38153360104`) also proved the app compiled, then correctly failed the
@@ -56,8 +57,5 @@ signed device archive or an iOS 27 SDK build.
    inspection on the owner's Mac/account.
 5. Complete physical iPhone, AirPlay/external display, LAN-permission, CarPlay Simulator,
    supported head-unit, interruption, and parked/moving transition tests.
-6. Address any concurrency warnings before enabling Swift 6 language mode; the current
-   target deliberately builds in Swift 5 language mode.
-
 These blockers require Apple credentials, approvals, an SDK not present in the verified
 runner, or physical hardware and therefore cannot be truthfully completed in CI alone.
