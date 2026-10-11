@@ -59,10 +59,6 @@ final class CarWebViewController: UIViewController, WebVideoControlling {
         updateInteractionPolicy()
     }
 
-    deinit {
-        webView?.configuration.userContentController.removeScriptMessageHandler(forName: ScriptMessage.mediaState)
-    }
-
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         // WKWebView follows the scene/window bounds, including ultrawide external displays.

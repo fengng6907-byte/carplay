@@ -1,6 +1,6 @@
 import AVKit
 import AVFoundation
-import CarPlay
+@preconcurrency import CarPlay
 import Combine
 import CoreLocation
 import CoreMotion
