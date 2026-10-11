@@ -1,0 +1,288 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B00000000000000000000001 /* OmniCastApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000001 /* OmniCastApp.swift */; };
+		B00000000000000000000002 /* PhoneRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000002 /* PhoneRootView.swift */; };
+		B00000000000000000000003 /* PlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000003 /* PlayerManager.swift */; };
+		B00000000000000000000004 /* PlaybackStateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000004 /* PlaybackStateModel.swift */; };
+		B00000000000000000000005 /* MediaSourceResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000005 /* MediaSourceResolver.swift */; };
+		B00000000000000000000006 /* CarWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000006 /* CarWebViewController.swift */; };
+		B00000000000000000000007 /* DLNAReceiverService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000007 /* DLNAReceiverService.swift */; };
+		B00000000000000000000008 /* CarPlaySceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000008 /* CarPlaySceneDelegate.swift */; };
+		B00000000000000000000009 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000009 /* Assets.xcassets */; };
+		B0000000000000000000000A /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000000A /* PrivacyInfo.xcprivacy */; };
+		B0000000000000000000000B /* PlaybackReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000000D /* PlaybackReducerTests.swift */; };
+		B0000000000000000000000C /* MediaSourceResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000000E /* MediaSourceResolverTests.swift */; };
+		B0000000000000000000000D /* MediaLibraryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000010 /* MediaLibraryStore.swift */; };
+		B0000000000000000000000E /* NetworkSecurityPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000011 /* NetworkSecurityPolicy.swift */; };
+		B0000000000000000000000F /* ReceiverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000012 /* ReceiverController.swift */; };
+		B00000000000000000000010 /* NetworkSecurityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000013 /* NetworkSecurityTests.swift */; };
+		B00000000000000000000011 /* MediaLibraryStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000014 /* MediaLibraryStoreTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C00000000000000000000001 = {
+			isa = PBXContainerItemProxy;
+			containerPortal = P00000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = T00000000000000000000001;
+			remoteInfo = OmniCast;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F00000000000000000000001 /* OmniCastApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OmniCastApp.swift; sourceTree = "<group>"; };
+		F00000000000000000000002 /* PhoneRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneRootView.swift; sourceTree = "<group>"; };
+		F00000000000000000000003 /* PlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerManager.swift; sourceTree = "<group>"; };
+		F00000000000000000000004 /* PlaybackStateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackStateModel.swift; sourceTree = "<group>"; };
+		F00000000000000000000005 /* MediaSourceResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaSourceResolver.swift; sourceTree = "<group>"; };
+		F00000000000000000000006 /* CarWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarWebViewController.swift; sourceTree = "<group>"; };
+		F00000000000000000000007 /* DLNAReceiverService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLNAReceiverService.swift; sourceTree = "<group>"; };
+		F00000000000000000000008 /* CarPlaySceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlaySceneDelegate.swift; sourceTree = "<group>"; };
+		F00000000000000000000009 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F0000000000000000000000A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		F0000000000000000000000B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F0000000000000000000000C /* OmniCast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OmniCast.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F0000000000000000000000D /* PlaybackReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackReducerTests.swift; sourceTree = "<group>"; };
+		F0000000000000000000000E /* MediaSourceResolverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaSourceResolverTests.swift; sourceTree = "<group>"; };
+		F0000000000000000000000F /* OmniCastTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OmniCastTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F00000000000000000000010 /* MediaLibraryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibraryStore.swift; sourceTree = "<group>"; };
+		F00000000000000000000011 /* NetworkSecurityPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSecurityPolicy.swift; sourceTree = "<group>"; };
+		F00000000000000000000012 /* ReceiverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiverController.swift; sourceTree = "<group>"; };
+		F00000000000000000000013 /* NetworkSecurityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSecurityTests.swift; sourceTree = "<group>"; };
+		F00000000000000000000014 /* MediaLibraryStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibraryStoreTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D00000000000000000000001 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		D00000000000000000000002 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		G00000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				G00000000000000000000002 /* OmniCast */,
+				G00000000000000000000003 /* OmniCastTests */,
+				G00000000000000000000004 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		G00000000000000000000002 /* OmniCast */ = {
+			isa = PBXGroup;
+			children = (
+				F00000000000000000000001 /* OmniCastApp.swift */,
+				F00000000000000000000002 /* PhoneRootView.swift */,
+				F00000000000000000000003 /* PlayerManager.swift */,
+				F00000000000000000000004 /* PlaybackStateModel.swift */,
+				F00000000000000000000005 /* MediaSourceResolver.swift */,
+				F00000000000000000000006 /* CarWebViewController.swift */,
+				F00000000000000000000007 /* DLNAReceiverService.swift */,
+				F00000000000000000000008 /* CarPlaySceneDelegate.swift */,
+				F00000000000000000000010 /* MediaLibraryStore.swift */,
+				F00000000000000000000011 /* NetworkSecurityPolicy.swift */,
+				F00000000000000000000012 /* ReceiverController.swift */,
+				F00000000000000000000009 /* Assets.xcassets */,
+				F0000000000000000000000A /* PrivacyInfo.xcprivacy */,
+				F0000000000000000000000B /* Info.plist */,
+			);
+			name = OmniCast;
+			path = .;
+			sourceTree = "<group>";
+		};
+		G00000000000000000000003 /* OmniCastTests */ = {
+			isa = PBXGroup;
+			children = (
+				F0000000000000000000000D /* PlaybackReducerTests.swift */,
+				F0000000000000000000000E /* MediaSourceResolverTests.swift */,
+				F00000000000000000000013 /* NetworkSecurityTests.swift */,
+				F00000000000000000000014 /* MediaLibraryStoreTests.swift */,
+			);
+			path = OmniCastTests;
+			sourceTree = "<group>";
+		};
+		G00000000000000000000004 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F0000000000000000000000C /* OmniCast.app */,
+				F0000000000000000000000F /* OmniCastTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		T00000000000000000000001 /* OmniCast */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = L00000000000000000000002;
+			buildPhases = (S00000000000000000000001, D00000000000000000000001, R00000000000000000000001);
+			buildRules = ();
+			dependencies = ();
+			name = OmniCast;
+			productName = OmniCast;
+			productReference = F0000000000000000000000C /* OmniCast.app */;
+			productType = "com.apple.product-type.application";
+		};
+		T00000000000000000000002 /* OmniCastTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = L00000000000000000000003;
+			buildPhases = (S00000000000000000000002, D00000000000000000000002, R00000000000000000000002);
+			buildRules = ();
+			dependencies = (E00000000000000000000001);
+			name = OmniCastTests;
+			productName = OmniCastTests;
+			productReference = F0000000000000000000000F /* OmniCastTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		P00000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					T00000000000000000000001 = {CreatedOnToolsVersion = 16.0; };
+					T00000000000000000000002 = {CreatedOnToolsVersion = 16.0; TestTargetID = T00000000000000000000001; };
+				};
+			};
+			buildConfigurationList = L00000000000000000000001;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (en, Base);
+			mainGroup = G00000000000000000000001;
+			productRefGroup = G00000000000000000000004 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (T00000000000000000000001, T00000000000000000000002);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		R00000000000000000000001 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (B00000000000000000000009, B0000000000000000000000A); runOnlyForDeploymentPostprocessing = 0; };
+		R00000000000000000000002 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		S00000000000000000000001 = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B00000000000000000000001, B00000000000000000000002,
+				B00000000000000000000003, B00000000000000000000004,
+				B00000000000000000000005, B00000000000000000000006,
+				B00000000000000000000007, B00000000000000000000008,
+				B0000000000000000000000D, B0000000000000000000000E,
+				B0000000000000000000000F,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		S00000000000000000000002 = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0000000000000000000000B, B0000000000000000000000C,
+				B00000000000000000000010, B00000000000000000000011,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E00000000000000000000001 = {isa = PBXTargetDependency; target = T00000000000000000000001; targetProxy = C00000000000000000000001; };
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		X00000000000000000000001 = {isa = XCBuildConfiguration; buildSettings = {CLANG_ENABLE_MODULES = YES; ENABLE_STRICT_OBJC_MSGSEND = YES; IPHONEOS_DEPLOYMENT_TARGET = 16.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0; }; name = Debug; };
+		X00000000000000000000002 = {isa = XCBuildConfiguration; buildSettings = {CLANG_ENABLE_MODULES = YES; ENABLE_NS_ASSERTIONS = NO; IPHONEOS_DEPLOYMENT_TARGET = 16.0; SDKROOT = iphoneos; SWIFT_COMPILATION_MODE = wholemodule; SWIFT_VERSION = 5.0; VALIDATE_PRODUCT = YES; }; name = Release; };
+		X00000000000000000000003 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.OmniCast;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		X00000000000000000000004 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.OmniCast;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		X00000000000000000000005 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.OmniCastTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OmniCast.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OmniCast";
+			};
+			name = Debug;
+		};
+		X00000000000000000000006 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.OmniCastTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OmniCast.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OmniCast";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		L00000000000000000000001 = {isa = XCConfigurationList; buildConfigurations = (X00000000000000000000001, X00000000000000000000002); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		L00000000000000000000002 = {isa = XCConfigurationList; buildConfigurations = (X00000000000000000000003, X00000000000000000000004); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		L00000000000000000000003 = {isa = XCConfigurationList; buildConfigurations = (X00000000000000000000005, X00000000000000000000006); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+/* End XCConfigurationList section */
+	};
+	rootObject = P00000000000000000000001 /* Project object */;
+}

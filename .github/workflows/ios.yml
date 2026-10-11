@@ -1,0 +1,53 @@
+name: iOS build and tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Show toolchain
+        run: xcodebuild -version
+
+      - name: Build for a generic simulator
+        run: >-
+          xcodebuild
+          -project OmniCast.xcodeproj
+          -scheme OmniCast
+          -configuration Debug
+          -sdk iphonesimulator
+          -destination 'generic/platform=iOS Simulator'
+          CODE_SIGNING_ALLOWED=NO
+          clean build
+
+      - name: Select an available iPhone simulator
+        id: simulator
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEVICE_ID=$(xcrun simctl list devices available --json | python3 -c 'import json,sys; data=json.load(sys.stdin); print(next(d["udid"] for runtime in data["devices"].values() for d in runtime if d["name"].startswith("iPhone")))')
+          echo "id=$DEVICE_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Run unit tests
+        run: >-
+          xcodebuild
+          -project OmniCast.xcodeproj
+          -scheme OmniCast
+          -configuration Debug
+          -destination 'platform=iOS Simulator,id=${{ steps.simulator.outputs.id }}'
+          CODE_SIGNING_ALLOWED=NO
+          test
